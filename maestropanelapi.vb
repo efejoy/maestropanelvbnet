@@ -1,58 +1,24 @@
-Public Class Form1
+Public Class maestro
+    Public Shared ApiKey As String = "1_885bd9d868494d078d4394809f5ca7ac"
+    Public Shared apihostdomain As String = "localhost"
+    Public Shared port As Integer = 9715
+    Public Shared ssl As Boolean = False
 
-    Public Shared ApiKey As String
-    Public Shared apihostdomain As String
-    Public Shared port As Integer
-    Public Shared ssl As Boolean
-
-
-    Public Sub DomainCreateTest()
-        ApiKey = "1_885bd9d868494d078d4394809f5ca7ac"
-        apihostdomain = "localhost"
-        port = 9715
-        ssl = False
-
+    Public Shared Function domain_olustur(domain_adi As String, plan_adi As String, kullanici_adi As String, parola As String,
+                                          ad As String, soyad As String, eposta As String) As Integer
         Dim target As New MaestroPanelApi.Client(ApiKey, apihostdomain, port, ssl)
-
-        Dim api_result As Integer
-
-        Dim name As String = "demo4.com"
-        Dim planAlias As String = "default"
-        Dim username As String = "demo1.com"
-        Dim password As String = "kr3m@12!"
-        Dim activedomainuser As Boolean = False
-        Dim firstName As String = "Demo"
-        Dim lastName As String = "Customer"
-        Dim email As String = "demo@customer.com"
-
-        Dim actual As MaestroPanelApi.ApiResult = target.DomainCreate(name, planAlias, username, password, activedomainuser, firstName,
-            lastName, email)
-
-        api_result = actual.Code.ToString
-
-    End Sub
-    Public Sub DomainStartTest()
-        ApiKey = "1_885bd9d868494d078d4394809f5ca7ac"
-        apihostdomain = "localhost"
-        port = 9715
-        ssl = False
-
-        Dim target As New Client(ApiKey, apihostdomain, port, ssl)
-        Dim name As String = "mustafaefe.me"
-        Dim actual As ApiResult = target.DomainStart(name)
-        Dim api_result As Integer = actual.Code.ToString
-    End Sub
-
-    Public Sub DomainStopTest()
-        ApiKey = "1_885bd9d868494d078d4394809f5ca7ac"
-        apihostdomain = "localhost"
-        port = 9715
-        ssl = False
-
-        Dim target As New Client(ApiKey, apihostdomain, port, ssl)
-        Dim name As String = "mustafaefe.me"
-        Dim actual As ApiResult = target.DomainStop(name)
-        Dim api_result As Integer = actual.Code.ToString
-    End Sub
-
+        Dim islem As MaestroPanelApi.ApiResult = target.DomainCreate(domain_adi, plan_adi, kullanici_adi,
+                                                                     parola, False, ad, soyad, eposta.ToString.ToLower)
+        Return islem.Code
+    End Function
+    Public Shared Function domain_baslat(domain_adi As String) As Integer
+        Dim target As New MaestroPanelApi.Client(ApiKey, apihostdomain, port, ssl)
+        Dim islem As MaestroPanelApi.ApiResult = target.DomainStart(domain_adi)
+        Return islem.Code
+    End Function
+    Public Shared Function domain_durdur(domain_adi As String) As Integer
+        Dim target As New MaestroPanelApi.Client(ApiKey, apihostdomain, port, ssl)
+        Dim islem As MaestroPanelApi.ApiResult = target.DomainStop(domain_adi)
+        Return islem.Code
+    End Function
 End Class
